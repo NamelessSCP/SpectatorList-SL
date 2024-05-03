@@ -9,11 +9,13 @@ namespace SpectatorList
 {
     public class EventHandler
     {
+        private Config _config => SpectatorList.Instance.Config;
+        
         public EventHandler() => Timing.RunCoroutine(DoList());
 
         private IEnumerator<float> DoList()
         {
-            while (true)
+            for (; ;)
             {
                 if (Round.IsEnded)
                 {
@@ -23,7 +25,7 @@ namespace SpectatorList
                 
                 foreach (Player player in Player.List)
                 {
-                    if (player.IsDead) continue;
+                    if (player.IsDead || _config.HiddenFor.Contains(player.Role.Team)) continue;
                     
                     int count = player.CurrentSpectatingPlayers.Count(p => p.Role != RoleTypeId.Overwatch);
                     
@@ -32,13 +34,13 @@ namespace SpectatorList
                     
                     foreach (Player spectator in player.CurrentSpectatingPlayers.Where(p => p.Role != RoleTypeId.Overwatch))
                     {
-                        sb.AppendLine(spectator.DisplayNickname);
+                        sb.AppendLine(_config.PlayerDisplay.Replace("%name%", spectator.DisplayNickname));
                     }
 
-                    player.ShowHint($"<size=23><align=right><voffset=750>{sb}</size></voffset></align>", SpectatorList.Instance.Config.RefreshRate + 0.15f);
+                    player.ShowHint(_config.FullText.Replace("%display%", sb.ToString()), _config.RefreshRate + 0.15f);
                 }
                 
-                yield return Timing.WaitForSeconds(SpectatorList.Instance.Config.RefreshRate);
+                yield return Timing.WaitForSeconds(_config.RefreshRate);
             }
         }
     }
