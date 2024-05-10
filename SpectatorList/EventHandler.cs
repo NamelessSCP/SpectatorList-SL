@@ -29,16 +29,11 @@ namespace SpectatorList
 
         private IEnumerator<float> DoList()
         {
-            Log.Debug("haii");
             while (true)
             {
-                Log.Debug("Running foreach loop.");
-
                 foreach (Player player in Player.List)
                 {
-                    Log.Debug("Checking condition for Spec List");
                     if (player.IsDead || _config.HiddenFor.Contains(player.Role.Team)) continue;
-                    Log.Debug("Player is able to see Spectator List");
 
                     int count = player.CurrentSpectatingPlayers.Count(p => p.Role != RoleTypeId.Overwatch);
 

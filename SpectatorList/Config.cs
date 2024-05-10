@@ -14,6 +14,6 @@ namespace SpectatorList
         [Description("How often in seconds to refresh the hud")]
         public float RefreshRate { get; set; } = 2;
         public string FullText { get; set; } = "<size=23><align=right><voffset=750>%display%</size></voffset></align>";
-        public string PlayerDisplay { get; set; } = "%name%";
+        public string PlayerDisplay { get; set; } = "-> %name%";
     }
 }
