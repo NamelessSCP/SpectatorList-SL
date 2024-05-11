@@ -38,7 +38,9 @@ namespace SpectatorList
                     int count = player.CurrentSpectatingPlayers.Count(p => p.Role != RoleTypeId.Overwatch);
 
                     StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"{count} players are spectating{(count == 0 ? string.Empty : ":")}");
+                    sb.AppendLine(count == 0
+                        ? _config.NoSpectators
+                        : _config.Spectators.Replace("%amount%", count.ToString()));
 
                     foreach (Player spectator in player.CurrentSpectatingPlayers.Where(p => p.Role != RoleTypeId.Overwatch))
                         sb.AppendLine(_config.PlayerDisplay.Replace("%name%", spectator.CustomName));
